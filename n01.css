@@ -12,16 +12,4 @@
     background-color: #f9d759;
     color: #000000;
     font-weight: bold;
-    animation: color-blink 1s infinite alternate;
-}
-
-@keyframes color-blink {
-    0% {
-        background-color: #f9d759;
-        color: #000000;
-    }
-    100% {
-        background-color: #000000;
-        color: #f9d759;
-    }
 }
