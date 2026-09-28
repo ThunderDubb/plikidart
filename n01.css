@@ -10,5 +10,19 @@
 
 #announce {
     background-color: #f9d759;
-    color: black;
+    color: #000000;
+    font-weight: bold;
+    
+    /* Dodana animacja */
+    animation: blink-effect 1.5s infinite alternate;
+}
+
+/* Reguła definiująca jak ma wyglądać mruganie */
+@keyframes blink-effect {
+    0% {
+        opacity: 1; /* Pełna widoczność */
+    }
+    100% {
+        opacity: 0.3; /* Lekkie przygaszenie/przezroczystość */
+    }
 }
