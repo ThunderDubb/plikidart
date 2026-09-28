@@ -12,17 +12,16 @@
     background-color: #f9d759;
     color: #000000;
     font-weight: bold;
-    
-    /* Dodana animacja */
-    animation: blink-effect 1.5s infinite alternate;
+    animation: color-blink 1s infinite alternate;
 }
 
-/* Reguła definiująca jak ma wyglądać mruganie */
-@keyframes blink-effect {
+@keyframes color-blink {
     0% {
-        opacity: 1; /* Pełna widoczność */
+        background-color: #f9d759;
+        color: #000000;
     }
     100% {
-        opacity: 0.3; /* Lekkie przygaszenie/przezroczystość */
+        background-color: #000000;
+        color: #f9d759;
     }
 }
