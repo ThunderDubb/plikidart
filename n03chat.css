@@ -1,0 +1,387 @@
+/* ========================================================================
+   KALISKA LIGA DARTA — MIDNIGHT & CHAMPAGNE
+   n01 CUSTOM THEME / PREMIUM V3 / 2026-11-09
+
+   Cel: ciemny, elegancki interfejs bez bialych komorek i kart.
+   ZLOTO = zwyciezca; SREBRO = drugie miejsce w grupie.
+
+   WAŻNE: CSS nie potrafi rozpoznawać liczby "1" / "2" zapisanej jako
+   sam tekst komórki. Dlatego nie uznajemy automatycznie 1. i 2. wiersza
+   tabeli za lidera/wicelidera. Reguly pozycji dzialaja wtedy, kiedy n01
+   oznacza miejsce klasa lub atrybutem. Dzieki temu nie kolorujemy
+   blednego zawodnika, kiedy tabela nie jest posortowana wg rankingu.
+   ======================================================================== */
+
+:root {
+  color-scheme: dark;
+  --kld-bg:          #080b0f;
+  --kld-top:         #0d1116;
+  --kld-surface:     #141920;
+  --kld-surface-alt: #191f27;
+  --kld-surface-deep:#10151b;
+  --kld-border:      #313946;
+  --kld-border-soft: #272e38;
+  --kld-white:       #f3f5f7;
+  --kld-text:        #e4e9ef;
+  --kld-muted:       #adb7c3;
+  --kld-dim:         #8693a2;
+  --kld-gold:        #e1ba6b; /* cieple, jasne zloto */
+  --kld-silver:      #cbd5e1; /* chlodne, jasne srebro */
+  --kld-gold-glow:   rgba(225, 186, 107, .14);
+  --kld-silver-glow: rgba(203, 213, 225, .08);
+}
+
+/* 1. GLOBALNY FUNDAMENT ------------------------------------------------- */
+html, body {
+  background: var(--kld-bg) !important;
+  color: var(--kld-text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif !important;
+  color-scheme: dark;
+}
+body { margin: 0; }
+
+/* Tylko warstwy aplikacji: bez dotykania layoutu / szerokosci / pozycji. */
+:where(#app, #root, #wrapper, #main, #content, .app, .wrapper,
+       .main, .content, .page, .page-content, .container,
+       .tab-content, .tab-pane, main) {
+  background-color: transparent !important;
+  color: var(--kld-text);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: var(--kld-white) !important;
+  letter-spacing: .01em;
+}
+
+a { color: inherit; }
+a:hover { color: var(--kld-white); }
+
+/* 2. PASEK GORNY + NAWIGACJA ------------------------------------------- */
+:where(header, #header, .header, .page-header, .topbar, .top-bar,
+       .navbar, .title-bar) {
+  background: var(--kld-top) !important;
+  color: var(--kld-white) !important;
+  border-color: var(--kld-border-soft) !important;
+}
+
+:where(header, #header, .header, .page-header, .topbar, .title-bar)
+  :where(h1, h2, .title) {
+  color: var(--kld-white) !important;
+  font-weight: 600 !important;
+  letter-spacing: .01em;
+}
+
+:where(nav, .nav, .tabs, .nav-tabs, .tab-bar, .tabbar,
+       [role="tablist"]) {
+  background-color: var(--kld-top) !important;
+  border-color: var(--kld-border-soft) !important;
+}
+
+:where(.tabs, .nav-tabs, .tab-bar, .tabbar, [role="tablist"])
+  :where(a, button, [role="tab"]) {
+  background: transparent !important;
+  color: var(--kld-muted) !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+}
+
+:where(.tabs, .nav-tabs, .tab-bar, .tabbar, [role="tablist"])
+  :where(.active, .selected, .current, [aria-selected="true"]) {
+  color: var(--kld-white) !important;
+  border-bottom: 2px solid var(--kld-gold) !important;
+  font-weight: 650 !important;
+}
+
+:where(.section-title, .block-title, .round-title, .group-title,
+       .table-title, .bracket-title, .title-section) {
+  color: var(--kld-white) !important;
+  font-weight: 650 !important;
+  letter-spacing: .015em;
+}
+
+/* Drobne, spokojne przyciski; bez duzych cieni i animacji. */
+:where(button, input[type="button"], input[type="submit"],
+       .btn, .button, [role="button"]) {
+  background-color: var(--kld-top);
+  color: var(--kld-white);
+  border: 1px solid #59616c;
+  border-radius: 7px;
+  box-shadow: none;
+}
+:where(button, input[type="button"], input[type="submit"],
+       .btn, .button, [role="button"]):hover {
+  background-color: var(--kld-surface-alt);
+  border-color: #7b8490;
+  color: var(--kld-white);
+}
+:where(button, input, textarea, select, a):focus-visible {
+  outline: 2px solid var(--kld-gold);
+  outline-offset: 2px;
+}
+
+/* 3. TABELE — CIEMNE KOMORKI, CZYTELNE DANE ------------------------------ */
+table,
+.table {
+  border-collapse: collapse !important;
+  border-color: var(--kld-border) !important;
+  color: var(--kld-text) !important;
+}
+
+/* Naglowki biale, nigdy zlote. N01 stosuje czasem <td> w <thead>. */
+table thead th,
+table thead td,
+.table thead th,
+.table thead td,
+table th,
+.table th {
+  background: #10151b !important;
+  color: #ffffff !important;
+  border: 1px solid var(--kld-border) !important;
+  font-weight: 700 !important;
+  text-shadow: none !important;
+}
+
+table tbody td,
+.table tbody td {
+  background: var(--kld-surface) !important;
+  color: var(--kld-text) !important;
+  border: 1px solid var(--kld-border) !important;
+  text-shadow: none !important;
+  line-height: 1.28;
+}
+
+/* Dziedziczenie jasnego tekstu we wnetrzu ciemnych komorek. */
+table tbody td :where(a, span, div, small, b, strong, label),
+.table tbody td :where(a, span, div, small, b, strong, label) {
+  color: inherit;
+}
+
+/* Kolumna numeru, nazwisko i podsumowanie oddzielone tonem tla. */
+table tbody td:first-child,
+.table tbody td:first-child {
+  background: var(--kld-surface-deep) !important;
+  color: var(--kld-dim) !important;
+}
+table tbody td:nth-child(2),
+.table tbody td:nth-child(2) {
+  background: var(--kld-surface-alt) !important;
+  color: var(--kld-white) !important;
+  font-weight: 500;
+}
+table tbody td:nth-last-child(-n+3),
+.table tbody td:nth-last-child(-n+3) {
+  background: var(--kld-surface-deep) !important;
+  color: var(--kld-white) !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Bez szarych/bialych pasow i zbyt silnych animacji. */
+table tbody tr:nth-child(even) td,
+.table tbody tr:nth-child(even) td {
+  box-shadow: inset 0 0 0 9999px rgba(255,255,255,.012);
+}
+table tbody tr:hover td,
+.table tbody tr:hover td {
+  box-shadow: inset 0 0 0 9999px rgba(255,255,255,.035);
+}
+
+/* Neutralne opisy, np. srednie; bez robienia calego wiersza bladym. */
+table :where(.muted, .small, small, .sub, .average),
+.table :where(.muted, .small, small, .sub, .average) {
+  color: var(--kld-muted);
+}
+
+/* 4. MEDALE GRUP: TYLKO OZNACZONE POZYCJE -------------------------------
+   Najwazniejsze: NIE uzywamy "tr:first-child" ani "tr:nth-child(2)".
+   N01 moze trzymac uczestnikow w porzadku drabinki, a nie wg miejsca.
+   Ta sekcja obsluguje typowe semantyczne klasy i data-atrybuty.
+ */
+
+/* 1. MIEJSCE — ZLOTO */
+:where(table, .table) tbody tr:is(
+  .rank1, .rank-1, .rank_1, .place1, .place-1, .place_1,
+  .position-1, .first-place, .group-winner, .group_first,
+  .first, .winner, .rank-first,
+  [data-rank="1"], [data-place="1"], [data-position="1"]
+) > td:nth-child(2),
+:where(table, .table) tbody tr:has(> td:last-child:is(
+  .rank1, .rank-1, .place1, .place-1,
+  [data-rank="1"], [data-place="1"], [data-position="1"]
+)) > td:nth-child(2),
+:where(table, .table) tbody td:nth-child(2):is(
+  .rank1, .rank-1, .place1, .place-1, .group-winner, .first-place,
+  .first, .winner, [data-rank="1"], [data-place="1"]
+) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+
+/* 2. MIEJSCE — SREBRO */
+:where(table, .table) tbody tr:is(
+  .rank2, .rank-2, .rank_2, .place2, .place-2, .place_2,
+  .position-2, .second-place, .runner-up, .group-second,
+  .second, .rank-second,
+  [data-rank="2"], [data-place="2"], [data-position="2"]
+) > td:nth-child(2),
+:where(table, .table) tbody tr:has(> td:last-child:is(
+  .rank2, .rank-2, .place2, .place-2,
+  [data-rank="2"], [data-place="2"], [data-position="2"]
+)) > td:nth-child(2),
+:where(table, .table) tbody td:nth-child(2):is(
+  .rank2, .rank-2, .place2, .place-2, .runner-up,
+  .second, [data-rank="2"], [data-place="2"]
+) {
+  color: var(--kld-silver) !important;
+  font-weight: 750 !important;
+}
+
+/* Gdy n01 oznaczy sama nazwe klasyfikacyjna (bez klasy calego wiersza) */
+:where(table, .table) tbody td:nth-child(2)
+  :is(.rank1, .rank-1, .place1, .place-1, .group-winner, .first-place, .winner, .first) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+:where(table, .table) tbody td:nth-child(2)
+  :is(.rank2, .rank-2, .place2, .place-2, .runner-up, .second-place, .second) {
+  color: var(--kld-silver) !important;
+  font-weight: 750 !important;
+}
+
+/* To samo na komorce z miejscem, o ile system oznaczyl jej rzad. */
+:where(table, .table) tbody tr:is(
+  .rank1, .rank-1, .place1, .place-1, .group-winner,
+  [data-rank="1"], [data-place="1"]
+) > td:last-child,
+:where(table, .table) tbody td:last-child:is(
+  .rank1, .rank-1, .place1, .place-1,
+  [data-rank="1"], [data-place="1"]
+) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+:where(table, .table) tbody tr:is(
+  .rank2, .rank-2, .place2, .place-2, .runner-up,
+  [data-rank="2"], [data-place="2"]
+) > td:last-child,
+:where(table, .table) tbody td:last-child:is(
+  .rank2, .rank-2, .place2, .place-2,
+  [data-rank="2"], [data-place="2"]
+) {
+  color: var(--kld-silver) !important;
+  font-weight: 750 !important;
+}
+
+/* 5. DRABINKA — GRAFITOWE KARTY MECZOWE ------------------------------- */
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament,
+       [class*="bracket-container"], [class*="bracket-wrapper"]) {
+  background: transparent !important;
+  color: var(--kld-text) !important;
+}
+
+/* TYLKO cale boksy meczowe, bez wildcardow stylujacych kazdy element. */
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.match, .match-box, .matchBox, .match-card,
+         .game-box, .pair, .matchbox) {
+  background: var(--kld-surface) !important;
+  color: var(--kld-white) !important;
+  border: 1px solid var(--kld-border) !important;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.18) !important;
+}
+
+/* Wnetrze kart: ciemne, jednolite; nie biale. */
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.match, .match-box, .matchBox, .match-card, .game-box)
+  :where(.player, .team, .name, .player-name, .match-player,
+         .match-team, .competitor, .participant) {
+  background: var(--kld-surface) !important;
+  color: var(--kld-white) !important;
+}
+
+/* Wynik: dyskretnie glebsze tlo, jasna cyfra. */
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.score, .score-box, .match-score, .winner-score,
+         .win-score, .score-win) {
+  background: var(--kld-surface-deep) !important;
+  color: var(--kld-white) !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Oznaczenia zwyciezcy meczu: precyzyjne klasy. */
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.winner, .win, .is-winner, .match-winner,
+         .victory, .victor, .result-win, [data-winner="true"]) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.winner, .win, .is-winner, .match-winner,
+         .victory, .victor, .result-win, [data-winner="true"])
+  :where(.name, .player-name, .player, .team, .score,
+         .score-box, .match-score, span, b, strong, a) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+
+/* Klasy oznaczenia zwyciezcy rowniez poza kontenerem bracket. */
+:is(.match, .match-box, .matchBox, .match-card, .game-box)
+  :is(.winner, .win, .is-winner, .match-winner, [data-winner="true"]) {
+  color: var(--kld-gold) !important;
+  font-weight: 750 !important;
+}
+
+/* Naglowki rund / laczniki: z dala od złota, bez zbednych efektow. */
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.round-header, .round-title, .round-name,
+         .column-header, .stage-title) {
+  background: #11161c !important;
+  color: #fff !important;
+  border-color: var(--kld-border-soft) !important;
+  font-weight: 600 !important;
+}
+:where(.bracket, .tournament-bracket, .tournament-tree,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.connector, .bracket-line, .match-line, .line) {
+  border-color: #343c47 !important;
+}
+
+/* 6. DIALOGI / FORMULARZE / STOPKA -------------------------------------- */
+:where(.modal, .modal-content, .dialog, .dialog-content,
+       .popup, .popover, .dropdown-menu, .menu) {
+  background: var(--kld-surface) !important;
+  color: var(--kld-white) !important;
+  border-color: var(--kld-border) !important;
+}
+:where(input:not([type="checkbox"]):not([type="radio"]),
+       select, textarea) {
+  background-color: var(--kld-surface-deep);
+  color: var(--kld-white);
+  border: 1px solid var(--kld-border);
+  border-radius: 5px;
+}
+:where(input, textarea)::placeholder { color: var(--kld-muted); }
+:where(footer, #footer, .footer) {
+  background-color: var(--kld-bg) !important;
+  color: var(--kld-muted);
+  border-color: var(--kld-border-soft) !important;
+}
+
+/* 7. MOBILNE — TYLKO MALE PRZESTRZENIE, ZERO ZMIAN W DRABINCE ------------ */
+@media (max-width: 720px) {
+  :where(table, .table) :where(th, td) {
+    padding: 5px 6px;
+  }
+  :where(.table-responsive, .table-wrapper, .table-scroll,
+         .bracket-scroll, .bracket-wrapper) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
