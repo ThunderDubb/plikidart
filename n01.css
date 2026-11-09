@@ -1,15 +1,309 @@
-#header {
-    position: fixed;
-    z-index: 5;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    background-color: #000;
-    color: #fff;
+/*
+ * KALISKA LIGA DARTA — n01 DARK
+ * Inspiracja: Grand Prix o Puchar Koszalina (n01).
+ * Wersja: 1.1 | 2026-11-09
+ *
+ * Ten arkusz zmienia kolory i wykończenie interfejsu. Celowo nie
+ * przestawia elementów drabinki ani nie ukrywa żadnych danych.
+ * Uwaga: nazwy klas w n01 mogą różnić się w zależności od widoku.
+ */
+
+/* 01 — PALETA: kolory odczytane z przykładowych zrzutów */
+:root {
+  color-scheme: dark;
+  --kld-bg:        #080808;
+  --kld-panel:     #151515;
+  --kld-header:    #111111;
+  --kld-border:    #383838;
+  --kld-text:      #f2f2f2;
+  --kld-muted:     #aeb3b9;
+  --kld-gold:      #d4af37;
+  --kld-green:     #8be28b;
+  --kld-score:     #122633;
+  --kld-hover:     #202020;
 }
 
-.announce_input {
-    background-color: #f9d759;
-    color: #000000;
-    font-weight: bold;
+/* 02 — OGÓLNE TŁO I TYPOGRAFIA */
+html,
+body {
+  background: var(--kld-bg) !important;
+  color: var(--kld-text) !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body {
+  margin: 0;
+}
+
+/* Główne obszary nie powinny zakrywać czarnego tła. */
+:where(#app, #root, #wrapper, #main, #content, .app, .wrapper,
+       .main, .content, .page, .page-content, .tab-content,
+       .tab-pane, .container, main) {
+  background-color: transparent !important;
+  color: var(--kld-text);
+}
+
+h1, h2, h3, h4, h5, h6,
+label, legend {
+  color: var(--kld-text);
+}
+
+p, span, small, strong, b, li {
+  /* Kolor dziedziczony pozwala n01 zachować wyróżnienia zwycięzców. */
+  text-shadow: none;
+}
+
+a {
+  color: var(--kld-text);
+  text-decoration-color: var(--kld-border);
+}
+
+a:hover, a:focus-visible {
+  color: var(--kld-gold);
+}
+
+/* 03 — NAGŁÓWEK, PRZYCISKI POWRÓT / STATYSTYKI */
+:where(header, #header, .header, .page-header, .topbar,
+       .top-bar, .navbar, .navbar-header, .title-bar) {
+  background: var(--kld-header) !important;
+  color: var(--kld-text) !important;
+  border-color: var(--kld-border) !important;
+}
+
+:where(header, #header, .page-header, .title-bar) :where(h1, h2, .title) {
+  color: var(--kld-text) !important;
+  font-weight: 500;
+}
+
+:where(button, input[type="button"], input[type="submit"],
+       .btn, .button, [role="button"]) {
+  background: var(--kld-header);
+  color: var(--kld-text);
+  border: 1px solid var(--kld-border);
+  border-radius: 18px;
+  box-shadow: none;
+}
+
+:where(button, input[type="button"], input[type="submit"],
+       .btn, .button, [role="button"]):hover {
+  background: var(--kld-hover);
+  color: #fff;
+}
+
+:where(button, .btn, .button, a):focus-visible {
+  outline: 2px solid var(--kld-gold);
+  outline-offset: 2px;
+}
+
+/* 04 — PASEK ZAKŁADEK: DRABINKA / WYNIKI / SZCZEGÓŁY */
+:where(nav, .nav, .tabs, .tab-bar, .tabbar, .nav-tabs,
+       .tabs-header, .tab-header, [role="tablist"]) {
+  background: var(--kld-header) !important;
+  border-color: var(--kld-border) !important;
+  color: var(--kld-muted);
+}
+
+:where(.tabs, .tab-bar, .tabbar, .nav-tabs, [role="tablist"])
+  :where(a, button, [role="tab"]) {
+  color: var(--kld-muted);
+  background: transparent;
+  border-color: transparent;
+  border-radius: 0;
+}
+
+:where(.tabs, .tab-bar, .tabbar, .nav-tabs, [role="tablist"])
+  :where(.active, .selected, .current, [aria-selected="true"]) {
+  color: #fff !important;
+  border-bottom: 3px solid #f2f2f2 !important;
+  font-weight: 700;
+}
+
+/* 05 — NAGŁÓWKI SEKCJI: Round Robin / Winners / Matches */
+:where(.section-title, .block-title, .round-title, .group-title,
+       .table-title, .bracket-title, .title-section) {
+  color: #fff !important;
+  background: transparent !important;
+  font-weight: 700;
+}
+
+/* 06 — TABELE WYNIKÓW / RANKINGI / TABELKI GRUPOWE */
+table {
+  color: var(--kld-text);
+  border-color: var(--kld-border);
+  border-collapse: collapse;
+}
+
+:where(table, .table) :where(th, td) {
+  border-color: var(--kld-border) !important;
+  color: var(--kld-text);
+}
+
+:where(table, .table) th {
+  background: var(--kld-header) !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+:where(table, .table) td {
+  background-color: var(--kld-panel);
+}
+
+:where(table, .table) :where(tbody tr:hover, tr.hover) td {
+  background: var(--kld-hover);
+}
+
+:where(table, .table) :where(tfoot, thead) td {
+  background: var(--kld-header);
+}
+
+/* N01 i niektóre motywy używają także osobnych klas komórek. */
+:where(.league-table, .lg-table, .lg_table, .rr-table, .rr_table,
+       .ranking-table, .results-table, .result-table,
+       [class*="standings"], [class*="ranking-table"]) {
+  color: var(--kld-text);
+  border-color: var(--kld-border) !important;
+}
+
+/* Awansujące miejsca w tabelach grupowych: pierwsze dwa wiersze. */
+:where(.rr-table, .rr_table, .round-robin-table, .group-table,
+       .league-table, .lg_table) tbody tr:nth-child(-n + 2)
+       :where(td:nth-child(2), td.name, .player-name, .name) {
+  color: var(--kld-green) !important;
+}
+
+/* Alternatywne klasy nadawane przez system dla miejsca / awansu. */
+:where(.qualified, .qualifier, .advance, .promoted,
+       .rank-1, .rank-2, .place-1, .place-2) {
+  color: var(--kld-green) !important;
+}
+
+/* 07 — DRABINKA: KAFELKI SPOTKAŃ I ETAPY */
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament,
+       [class*="bracket-container"], [class*="bracket-wrapper"]) {
+  background: transparent !important;
+  color: var(--kld-text);
+}
+
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament,
+       [class*="bracket-container"], [class*="bracket-wrapper"])
+  :where(.match, .match-box, .matchBox, .game-box, .match-card,
+         .pair, [class*="match-box"], [class*="matchBox"]) {
+  background: var(--kld-panel) !important;
+  color: var(--kld-text) !important;
+  border-color: var(--kld-border) !important;
+  border-radius: 6px;
+  box-shadow: none !important;
+}
+
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.round-header, .round-title, .round-name,
+         .column-header, .stage-title) {
+  background: var(--kld-header) !important;
+  color: #fff !important;
+  border-color: var(--kld-border) !important;
+}
+
+/* Wpisy zwycięzców — złoto i pogrubienie jak w przykładzie z Koszalina. */
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.winner, .win, .is-winner, .match-winner, .victory) {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.winner, .win, .is-winner, .match-winner, .victory)
+  :where(.name, .player, .team, a, span) {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* Najwyższe miejsce / zwycięzca w tabelach */
+:where(table, .table) :where(.winner, .win, .is-winner, .first, .place-1, .rank-1) {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+:where(.rr-table, .rr_table, .round-robin-table, .group-table,
+       .league-table, .lg_table) tbody tr:first-child :where(td, a, span, .name, .player-name) {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* Pole z wynikiem zwycięzcy — ciemny błękit. */
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.winner-score, .win-score, .score-win,
+         .score.winner, .score.win) {
+  background: var(--kld-score) !important;
+  color: var(--kld-gold) !important;
+}
+
+/* Delikatne szare linie łączące pary, jeśli są zrobione z elementów HTML. */
+:where(.bracket, .tournament-bracket, .tournament-tree, .draw,
+       .knockout, .single-elimination, #bracket, #tournament)
+  :where(.connector, .bracket-line, .match-line, .line) {
+  border-color: var(--kld-border) !important;
+}
+
+/* 08 — OKIENKA, FILTRY I POLA FORMULARZA */
+:where(.modal, .modal-content, .dialog, .dialog-content, .popup,
+       .popover, .dropdown-menu, .menu, .select-menu) {
+  background: var(--kld-panel) !important;
+  color: var(--kld-text) !important;
+  border-color: var(--kld-border) !important;
+}
+
+:where(input:not([type="checkbox"]):not([type="radio"]),
+       select, textarea) {
+  background-color: var(--kld-header);
+  color: var(--kld-text);
+  border: 1px solid var(--kld-border);
+}
+
+:where(input, textarea)::placeholder {
+  color: var(--kld-muted);
+}
+
+:where(input, select, textarea):focus-visible {
+  outline: 2px solid var(--kld-gold);
+  outline-offset: 1px;
+}
+
+/* 09 — STOPKA, LINKI POMOCNICZE */
+:where(footer, #footer, .footer) {
+  background: var(--kld-bg) !important;
+  color: var(--kld-muted);
+  border-color: var(--kld-border) !important;
+}
+
+:where(.muted, .text-muted, .secondary, .sub-title,
+       .description, .hint) {
+  color: var(--kld-muted);
+}
+
+/* 10 — TELEFONY: mniejsze odstępy, bez naruszania grafu drabinki */
+@media (max-width: 720px) {
+  html, body {
+    font-size: 13px;
+  }
+
+  :where(table, .table) :where(th, td) {
+    padding: 4px 5px;
+  }
+
+  :where(.table-responsive, .table-wrapper, .table-scroll,
+         .bracket-scroll, .bracket-wrapper) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  :where(.tabs, .tab-bar, .tabbar, .nav-tabs, [role="tablist"])
+    :where(a, button, [role="tab"]) {
+    font-size: 13px;
+  }
 }
