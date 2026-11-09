@@ -1,0 +1,487 @@
+/* ======================================================================
+   KALISKA LIGA DARTA / MIDNIGHT & MEDALS / PREMIUM V5
+   2026-11-09  — STANDALONE FILE, REPLACES V4
+
+   Goal: uniform dark tables AND dark bracket cards, restrained separators,
+   GOLD winners and SILVER runners-up with distinct contrast.
+
+   Important: CSS cannot match a player's rank from plain text "1" / "2"
+   in an unmarked cell. The group-medal selectors below require a rank
+   class/data attribute in n01's HTML. Never infer rank from row order.
+   ====================================================================== */
+
+:root {
+  color-scheme: dark;
+  --kld-bg: #090c10;
+  --kld-top: #0f141a;
+  --kld-ink: #f2f5fa;
+  --kld-text: #e4e9f0;
+  --kld-muted: #a8b3c2;
+  --kld-dim: #7f8da0;
+  --kld-cell: #151a22;
+  --kld-cell-alt: #1a212a;
+  --kld-cell-deep: #11161d;
+  --kld-bracket: #151b23;
+  --kld-bracket-score: #202a36;
+  --kld-border: #303a47;
+  --kld-border-soft: #2b3542;
+  --kld-bracket-line: #35404e;
+  --kld-gold: #f5bd45;          /* clearly gold, not beige */
+  --kld-gold-soft: rgba(255, 200, 87, .10);
+  --kld-silver: #8eafcb;        /* cooler metallic silver-blue, not white */
+  --kld-silver-soft: rgba(142, 175, 203, .12);
+}
+
+/* 01 — GLOBAL / HEADER ------------------------------------------------ */
+html, body {
+  margin: 0;
+  background: var(--kld-bg) !important;
+  color: var(--kld-text) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
+}
+
+:where(#app, #root, #wrapper, #main, #content, .app, .wrapper,
+       .main, .content, .page, .page-content, .container,
+       .tab-content, .tab-pane, main) {
+  background-color: transparent !important;
+  color: var(--kld-text);
+}
+
+:where(header, #header, .header, .page-header, .topbar,
+       .top-bar, .navbar, .title-bar) {
+  background: var(--kld-top) !important;
+  color: var(--kld-ink) !important;
+  border-color: #29313d !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+:where(.section-title, .block-title, .round-title, .group-title,
+       .table-title, .bracket-title, .title-section) {
+  color: var(--kld-ink) !important;
+  font-weight: 650;
+}
+
+a { color: inherit; }
+a:hover { color: var(--kld-ink); }
+
+:where(nav, .nav, .tabs, .nav-tabs, .tab-bar, .tabbar, [role='tablist']) {
+  background: var(--kld-top) !important;
+  border-color: #29313d !important;
+}
+:where(.tabs, .nav-tabs, .tab-bar, .tabbar, [role='tablist'])
+  :where(a, button, [role='tab']) {
+  color: var(--kld-muted) !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  border-radius: 0 !important;
+}
+:where(.tabs, .nav-tabs, .tab-bar, .tabbar, [role='tablist'])
+  :where(.active, .selected, .current, [aria-selected='true']) {
+  color: #fff !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid var(--kld-gold) !important;
+}
+
+:where(button, input[type='button'], input[type='submit'],
+       .btn, .button, [role='button']) {
+  background: var(--kld-top);
+  border: 1px solid #566170;
+  color: #fff;
+  border-radius: 7px;
+  box-shadow: none;
+}
+:where(button, input[type='button'], input[type='submit'],
+       .btn, .button, [role='button']):hover {
+  background: var(--kld-cell-alt);
+  border-color: #8d99a7;
+}
+:where(button, input, select, textarea, a):focus-visible {
+  outline: 2px solid var(--kld-gold);
+  outline-offset: 2px;
+}
+
+/* 02 — ROUND ROBIN TABLES --------------------------------------------- */
+/* Keep original table spacing and widths from n01. */
+table:not(:has(.t_item_container)), .table:not(:has(.t_item_container)) {
+  border-collapse: collapse !important;
+  color: var(--kld-text) !important;
+  border-color: var(--kld-border) !important;
+}
+
+table:not(:has(.t_item_container)) th, table:not(:has(.t_item_container)) thead td, .table:not(:has(.t_item_container)) th, .table:not(:has(.t_item_container)) thead td {
+  background: #0f141b !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  border: 1px solid var(--kld-border) !important;
+  text-shadow: none !important;
+}
+
+table:not(:has(.t_item_container)) tbody td, .table:not(:has(.t_item_container)) tbody td {
+  background: var(--kld-cell) !important;
+  border: 1px solid var(--kld-border) !important;
+  color: var(--kld-text) !important;
+  line-height: 1.28;
+  text-shadow: none !important;
+}
+
+table:not(:has(.t_item_container)) tbody td:first-child, .table:not(:has(.t_item_container)) tbody td:first-child {
+  background: var(--kld-cell-deep) !important;
+  color: var(--kld-dim) !important;
+}
+table:not(:has(.t_item_container)) tbody td:nth-child(2), .table:not(:has(.t_item_container)) tbody td:nth-child(2) {
+  background: var(--kld-cell-alt) !important;
+  color: var(--kld-ink) !important;
+  font-weight: 550;
+}
+table:not(:has(.t_item_container)) tbody td:nth-last-child(-n+3),
+.table:not(:has(.t_item_container)) tbody td:nth-last-child(-n+3) {
+  background: var(--kld-cell-deep) !important;
+  font-variant-numeric: tabular-nums;
+  color: var(--kld-ink) !important;
+}
+table:not(:has(.t_item_container)) tbody tr:nth-child(even) td,
+.table:not(:has(.t_item_container)) tbody tr:nth-child(even) td {
+  box-shadow: inset 0 0 0 9999px rgba(255,255,255,.012);
+}
+table:not(:has(.t_item_container)) tbody tr:hover td,
+.table:not(:has(.t_item_container)) tbody tr:hover td {
+  box-shadow: inset 0 0 0 9999px rgba(255,255,255,.035);
+}
+
+/* 03 — GROUP RANKS / MEDALS ------------------------------------------- */
+/* Rank is NOT row position. Protect against false winners/runner-ups. */
+
+/* Rank-1 classes on row, rank cell, or name cell. */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank1,.rank-1,.rank_1,.place1,.place-1,.place_1,
+  .position-1,.first-place,.group-winner,.group_first,.rank-first,
+  [data-rank='1'],[data-place='1'],[data-position='1']
+) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:has(> td:last-child:is(
+  .rank1,.rank-1,.place1,.place-1,
+  [data-rank='1'],[data-place='1'],[data-position='1']
+)) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(
+  .rank1,.rank-1,.place1,.place-1,.first-place,.group-winner,
+  [data-rank='1'],[data-place='1']
+),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2) :is(
+  .rank1,.rank-1,.place1,.place-1,.first-place,.group-winner
+) {
+  color: var(--kld-gold) !important;
+  font-weight: 800 !important;
+}
+
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank2,.rank-2,.rank_2,.place2,.place-2,.place_2,
+  .position-2,.second-place,.runner-up,.group-second,.rank-second,
+  .ranking2,.ranking-2,.ranking_2,.rank02,
+  [data-rank='2'],[data-place='2'],[data-position='2']
+) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:has(> td:last-child:is(
+  .rank2,.rank-2,.ranking2,.ranking-2,.ranking_2,.place2,.place-2,
+  [data-rank='2'],[data-place='2'],[data-position='2']
+)) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(
+  .rank2,.rank-2,.ranking2,.ranking-2,.ranking_2,.place2,.place-2,.runner-up,.second-place,
+  [data-rank='2'],[data-place='2']
+),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2) :is(
+  .rank2,.rank-2,.ranking2,.ranking-2,.ranking_2,.place2,.place-2,.runner-up,.second-place
+) {
+  color: var(--kld-silver) !important;
+  font-weight: 800 !important;
+}
+
+/* Deep selectors also color nested name and average, except flags. */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank1,.rank-1,.place1,.place-1,.group-winner,[data-rank='1'],[data-place='1']
+) > td:nth-child(2) :where(a,span,b,strong,small),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:has(> td:last-child:is(
+  .rank1,.rank-1,.place1,.place-1,[data-rank='1'],[data-place='1']
+)) > td:nth-child(2) :where(a,span,b,strong,small) {
+  color: var(--kld-gold) !important;
+  font-weight: 800 !important;
+}
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank2,.rank-2,.place2,.place-2,.runner-up,[data-rank='2'],[data-place='2']
+) > td:nth-child(2) :where(a,span,b,strong,small),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:has(> td:last-child:is(
+  .rank2,.rank-2,.place2,.place-2,[data-rank='2'],[data-place='2']
+)) > td:nth-child(2) :where(a,span,b,strong,small) {
+  color: var(--kld-silver) !important;
+  font-weight: 800 !important;
+}
+
+/* Highlight rank cell (where semantic information is supplied). */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank1,.rank-1,.place1,.place-1,.group-winner,[data-rank='1'],[data-place='1']
+) > td:last-child,
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:last-child:is(
+  .rank1,.rank-1,.place1,.place-1,[data-rank='1'],[data-place='1']
+) {
+  color: var(--kld-gold) !important;
+  font-weight: 800 !important;
+}
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank2,.rank-2,.place2,.place-2,.runner-up,[data-rank='2'],[data-place='2']
+) > td:last-child,
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:last-child:is(
+  .rank2,.rank-2,.place2,.place-2,[data-rank='2'],[data-place='2']
+) {
+  color: var(--kld-silver) !important;
+  font-weight: 800 !important;
+}
+
+/* Independent winner/runner-up classes assigned to name wrappers. */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2)
+  :is(.winner,.first,.gold,.gold-medal),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(.winner,.first,.gold,.gold-medal) {
+  color: var(--kld-gold) !important;
+  font-weight: 800 !important;
+}
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2)
+  :is(.second,.silver,.silver-medal),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(.second,.silver,.silver-medal) {
+  color: var(--kld-silver) !important;
+  font-weight: 800 !important;
+}
+
+/* A thin medal stripe is easier to distinguish than text hue alone. */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank1,.rank-1,.place1,.place-1,.group-winner,[data-rank='1'],[data-place='1']
+) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(
+  .rank1,.rank-1,.place1,.place-1,[data-rank='1'],[data-place='1']
+) {
+  box-shadow: inset 3px 0 0 var(--kld-gold) !important;
+}
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody tr:is(
+  .rank2,.rank-2,.ranking2,.ranking-2,.ranking_2,.place2,.place-2,
+  .runner-up,[data-rank='2'],[data-place='2']
+) > td:nth-child(2),
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody td:nth-child(2):is(
+  .rank2,.rank-2,.ranking2,.ranking-2,.ranking_2,.place2,.place-2,
+  [data-rank='2'],[data-place='2']
+) {
+  box-shadow: inset 3px 0 0 var(--kld-silver) !important;
+}
+
+/* ======================================================================
+   04 — N01 KNOCKOUT STAGE: VERIFIED SELECTORS FROM A REAL MATCH
+   N01 markup:
+   td.t_winner > .t_item_container > .t_item.win / .t_item.lose
+                                     > .t_no + .t_name + .t_result
+   Why separate rules? The knockout diagram is a TABLE of positioning cells.
+   A global `table td` border creates huge rectangle outlines.
+   This section never modifies match dimensions, positioning or row heights.
+   ====================================================================== */
+
+/* A. KILL ARTIFICIAL GRID ON BRACKET'S POSITIONING TABLE (NOT ON GROUP TABLES). */
+/* Modern browsers support :has(); group tables do not contain t_item_container. */
+table:has(.t_item_container),
+table:has(.t_item_container) > tbody,
+table:has(.t_item_container) > tbody > tr,
+table:has(.t_item_container) > tbody > tr > td,
+table:has(.t_item_container) > tbody > tr > th,
+table:has(.t_item_container) > tr > td {
+  background-color: transparent !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+table:has(.t_item_container) > tbody > tr > td,
+table:has(.t_item_container) > tbody > tr > th,
+table:has(.t_item_container) > tr > td {
+  border-color: transparent !important;
+  /* Keep existing border width to avoid changing bracket geometry. */
+}
+
+/* Extra safety if n01 nests the bracket rows inside table cells. */
+td.t_winner,
+td.t_winner:hover,
+td.t_winner:focus-within,
+td:has(> .t_item_container),
+tr:has(> td.t_winner) {
+  background: transparent !important;
+  background-image: none !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* B. DARK MATCH CARD: CSS applies to real n01 classes, not .match/.team. */
+td.t_winner .t_item_container,
+.t_item_container {
+  background: #171d26 !important;
+  background-image: none !important;
+  border-color: #384454 !important;
+  outline: 1px solid #384454 !important;
+  outline-offset: -1px;
+  border-radius: 6px !important;
+  box-shadow: 0 3px 8px rgba(0,0,0,.25) !important;
+  /* No overflow/width/height override: preserve n01 flags & layout. */
+}
+
+/* N01 creates two DIV player rows inside each match. */
+.t_item_container .t_item {
+  background: #151b23 !important;
+  background-image: none !important;
+  color: #e5ebf2 !important;
+  border-color: #303a47 !important;
+  text-shadow: none !important;
+  box-shadow: none !important;
+}
+
+/* Darken every visible part; the original light backgrounds were on children. */
+.t_item_container .t_item .t_no,
+.t_item_container .t_item .t_name,
+.t_item_container .t_item .t_result {
+  background-color: #151b23 !important;
+  background-image: none !important;
+  color: #e5ebf2 !important;
+  border-color: #303a47 !important;
+  text-shadow: none !important;
+}
+
+.t_item_container .t_item .t_no {
+  color: #8c9bab !important;
+  font-variant-numeric: tabular-nums;
+}
+.t_item_container .t_item .t_name,
+.t_item_container .t_item .t_name .entry_name {
+  color: #e9eef5 !important;
+  font-weight: 500 !important;
+}
+.t_item_container .t_item .t_avg {
+  color: #9aabba !important;
+  font-weight: 400 !important;
+  opacity: 1 !important;
+}
+.t_item_container .t_item .t_result {
+  background: #202b38 !important;
+  color: #e9eef5 !important;
+  font-weight: 700 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Draw a subtle internal division without adding height to either row. */
+.t_item_container .t_item:first-child {
+  box-shadow: inset 0 -1px 0 #303a47 !important;
+}
+
+/* C. WINNER: REAL N01 CLASS .win — GOLD AND BOLD. */
+.t_item_container .t_item.win,
+.t_item_container .t_item.win .t_name,
+.t_item_container .t_item.win .t_no {
+  background-color: #1b2129 !important;
+}
+.t_item_container .t_item.win .t_name,
+.t_item_container .t_item.win .t_name .entry_name,
+.t_item_container .t_item.win .t_no {
+  color: var(--kld-gold) !important;
+  font-weight: 800 !important;
+}
+.t_item_container .t_item.win .t_no {
+  box-shadow: inset 3px 0 0 var(--kld-gold) !important;
+}
+.t_item_container .t_item.win .t_result {
+  background: #3b3020 !important;
+  color: #ffd16a !important;
+  font-weight: 800 !important;
+}
+/* Do not color the average gold; keep a tidy typographic hierarchy. */
+.t_item_container .t_item.win .t_avg {
+  color: #a6b1be !important;
+  font-weight: 400 !important;
+}
+
+/* D. LOSER: understated, but readable. */
+.t_item_container .t_item.lose,
+.t_item_container .t_item.lose .t_name,
+.t_item_container .t_item.lose .t_no {
+  background-color: #151b23 !important;
+}
+.t_item_container .t_item.lose .t_name .entry_name {
+  color: #b7c1ce !important;
+  font-weight: 500 !important;
+}
+.t_item_container .t_item.lose .t_result {
+  background-color: #202b38 !important;
+  color: #c1ccd9 !important;
+  font-weight: 600 !important;
+}
+
+/* Don't affect flags, hover controls, join buttons, or clickable results. */
+.t_item_container .t_item:hover {
+  filter: brightness(1.08);
+}
+.t_item_container .t_item:focus-visible {
+  outline: 2px solid var(--kld-gold) !important;
+  outline-offset: 1px;
+}
+
+/* E. Lines: muted, thin-looking connectors, no layout modifications. */
+.t_winner,
+.t_winner ~ td,
+.t_item_container + .t_memo,
+.t_memo {
+  border-color: #293340 !important;
+}
+/* Known/likely n01 connector elements, without touching match geometry. */
+.t_line,
+.t_line_v,
+.t_line_h,
+.t_connector,
+.t_connect,
+.t_arrow,
+[class^='t_line_'],
+[class*=' t_line_'] {
+  border-color: #293440 !important;
+  box-shadow: none !important;
+}
+/* Connector pseudo-elements inherit a restrained, cool-gray tint. */
+.t_line::before,
+.t_line::after,
+.t_connector::before,
+.t_connector::after {
+  border-color: #293440 !important;
+}
+
+/* Inactive / empty bracket tiles. */
+.t_item_container .t_item:not(.win):not(.lose) .t_name .entry_name {
+  color: #d5dde7 !important;
+}
+
+/* 05 — MODALS / FORMS / UI -------------------------------------------- */
+:where(.modal,.modal-content,.dialog,.dialog-content,.popup,
+       .popover,.dropdown-menu,.menu) {
+  background: var(--kld-cell) !important;
+  color: var(--kld-ink) !important;
+  border-color: var(--kld-border) !important;
+}
+:where(input:not([type='checkbox']):not([type='radio']),select,textarea) {
+  background: var(--kld-cell-deep);
+  border: 1px solid var(--kld-border);
+  color: var(--kld-text);
+  border-radius: 5px;
+}
+:where(input,textarea)::placeholder { color: var(--kld-muted); }
+:where(footer,#footer,.footer) {
+  background: var(--kld-bg) !important;
+  color: var(--kld-muted);
+}
+
+@media (max-width: 720px) {
+  table:not(:has(.t_item_container)) th,
+  table:not(:has(.t_item_container)) td,
+  .table:not(:has(.t_item_container)) th,
+  .table:not(:has(.t_item_container)) td {
+    padding: 5px 6px;
+  }
+  :where(.table-responsive,.table-wrapper,.table-scroll,
+         .bracket-scroll,.bracket-wrapper) {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+}
