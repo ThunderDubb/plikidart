@@ -1,0 +1,456 @@
+/*
+ * KALISKA LIGA DARTA — n01 PRO DARK
+ * Wersja: 2.0 | 2026-11-09
+ * Cel: schludny, profesjonalny wygląd inspirowany turniejem Koszalina,
+ * ale dopasowany do rzeczywistego układu ligi n01.
+ */
+
+:root {
+  color-scheme: dark;
+  --kld-bg: #070707;
+  --kld-panel: #121212;
+  --kld-panel-2: #1a1a1a;
+  --kld-header: #0f0f10;
+  --kld-border: #3a3a3d;
+  --kld-border-soft: #2a2a2d;
+  --kld-text: #f2f2f2;
+  --kld-muted: #b9bec6;
+  --kld-cell: #dddddd;
+  --kld-cell-soft: #eeeeee;
+  --kld-cell-text: #22252b;
+  --kld-cell-muted: #9aa1aa;
+  --kld-score-bg: #deebf2;
+  --kld-score-text: #8a6711;
+  --kld-gold: #d1a229;
+  --kld-green: #79d88f;
+  --kld-shadow: 0 8px 24px rgba(0, 0, 0, .28);
+  --kld-radius: 10px;
+  --kld-radius-sm: 6px;
+}
+
+html, body {
+  margin: 0;
+  background: var(--kld-bg) !important;
+  color: var(--kld-text) !important;
+  font-family: Arial, Helvetica, sans-serif !important;
+}
+
+body,
+#app,
+#root,
+#wrapper,
+#content,
+.main,
+.content,
+.container,
+main {
+  background: var(--kld-bg) !important;
+  color: var(--kld-text) !important;
+}
+
+/* ========================================
+   1. GÓRA STRONY / TYTUŁ / PRZYCISKI
+   ======================================== */
+header,
+#header,
+.page-header,
+.navbar,
+.topbar,
+.title-bar,
+.title_bar {
+  background: var(--kld-header) !important;
+  color: #fff !important;
+  border-bottom: 1px solid var(--kld-border-soft) !important;
+  box-shadow: 0 1px 0 rgba(255,255,255,.04);
+}
+
+h1, h2, h3, h4, h5, h6,
+.title,
+.page-title,
+label,
+legend {
+  color: #fff !important;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover,
+a:focus-visible {
+  color: #fff;
+}
+
+button,
+.btn,
+.button,
+input[type="button"],
+input[type="submit"],
+[role="button"] {
+  background: #111214 !important;
+  color: #fff !important;
+  border: 1px solid #9b9b9b !important;
+  border-radius: 999px !important;
+  box-shadow: none !important;
+  transition: background-color .18s ease, border-color .18s ease, transform .18s ease;
+}
+
+button:hover,
+.btn:hover,
+.button:hover,
+input[type="button"]:hover,
+input[type="submit"]:hover,
+[role="button"]:hover {
+  background: #1b1c1f !important;
+  border-color: #d0d0d0 !important;
+  transform: translateY(-1px);
+}
+
+/* ========================================
+   2. ZAKŁADKI / SEKCJE
+   ======================================== */
+nav,
+.nav,
+.tabs,
+.nav-tabs,
+.tab-bar,
+.tabbar,
+[role="tablist"] {
+  background: var(--kld-header) !important;
+  border-bottom: 1px solid var(--kld-border-soft) !important;
+}
+
+.tabs a,
+.nav-tabs a,
+.tab-bar a,
+.tabbar a,
+[role="tablist"] [role="tab"] {
+  color: var(--kld-muted) !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.tabs .active,
+.nav-tabs .active,
+.tab-bar .active,
+.tabbar .active,
+[role="tablist"] [aria-selected="true"] {
+  color: #fff !important;
+  font-weight: 700 !important;
+  border-bottom: 2px solid #fff !important;
+}
+
+.section-title,
+.block-title,
+.group-title,
+.round-title,
+.bracket-title,
+.table-title,
+.title-section {
+  color: #fff !important;
+  font-weight: 700 !important;
+}
+
+/* ========================================
+   3. TABELE ROUND ROBIN / RANKING
+   ======================================== */
+table {
+  width: 100%;
+  border-collapse: collapse !important;
+  border-spacing: 0 !important;
+  color: var(--kld-text) !important;
+}
+
+table th,
+table td,
+.table th,
+.table td {
+  border: 1px solid #535353 !important;
+  padding: 8px 8px !important;
+}
+
+/* Nagłówki tabel — białe, zgodnie z Twoją uwagą */
+table thead th,
+.table thead th,
+table th,
+.table th {
+  background: linear-gradient(to bottom, #161616, #0f0f10) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  text-align: center;
+}
+
+/* Domyślna komórka tabel wyników */
+table td,
+.table td {
+  background: var(--kld-cell) !important;
+  color: var(--kld-cell-text) !important;
+}
+
+/* Kolumna z numerem miejsca */
+table tbody td:first-child,
+.table tbody td:first-child {
+  width: 28px;
+  text-align: center;
+  background: #f0f0f0 !important;
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* Kolumna z nazwiskiem */
+table tbody td:nth-child(2),
+.table tbody td:nth-child(2) {
+  background: #f5f5f5 !important;
+  color: #15171b !important;
+  font-weight: 500;
+  text-align: left;
+}
+
+/* Środkowa macierz spotkań */
+table tbody td:nth-child(n+3):nth-child(-n+7),
+.table tbody td:nth-child(n+3):nth-child(-n+7),
+table tbody td:nth-child(n+3):nth-child(-n+8),
+.table tbody td:nth-child(n+3):nth-child(-n+8) {
+  background: var(--kld-cell) !important;
+  color: var(--kld-cell-muted) !important;
+  text-align: center;
+}
+
+/* Ostatnie kolumny statystyk — ciemne jak na screenie */
+table tbody td:nth-last-child(-n+3),
+.table tbody td:nth-last-child(-n+3) {
+  background: #101010 !important;
+  color: #ffffff !important;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Hover subtelny */
+table tbody tr:hover td,
+.table tbody tr:hover td {
+  filter: brightness(0.985);
+}
+
+/* Zwycięzca / 1 miejsce w tabeli */
+table tbody tr:first-child td:nth-child(2),
+table tbody tr:first-child td:nth-child(2) *,
+.table tbody tr:first-child td:nth-child(2),
+.table tbody tr:first-child td:nth-child(2) * {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* 2 miejsce / awans */
+table tbody tr:nth-child(2) td:nth-child(2),
+table tbody tr:nth-child(2) td:nth-child(2) *,
+.table tbody tr:nth-child(2) td:nth-child(2),
+.table tbody tr:nth-child(2) td:nth-child(2) * {
+  color: var(--kld-green) !important;
+  font-weight: 600 !important;
+}
+
+/* Gdy n01 oznacza zwycięzcę klasą */
+.winner,
+.win,
+.is-winner,
+.match-winner,
+.place-1,
+.rank-1 {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+/* ========================================
+   4. DRABINKA / KNOCKOUT STAGE
+   ======================================== */
+.bracket,
+.tournament-bracket,
+.tournament-tree,
+.draw,
+.knockout,
+.single-elimination,
+#bracket,
+#tournament,
+[class*="bracket-container"],
+[class*="bracket-wrapper"] {
+  background: transparent !important;
+  color: var(--kld-text) !important;
+}
+
+/* Nagłówki rund */
+.bracket .round-header,
+.bracket .round-title,
+.bracket .stage-title,
+.tournament-bracket .round-header,
+.tournament-bracket .round-title,
+.tournament-tree .round-title,
+.knockout .round-title,
+.knockout .stage-title,
+[class*="bracket"] [class*="round"] > .title,
+[class*="bracket"] [class*="stage"] > .title {
+  background: linear-gradient(to right, #262626, #181818) !important;
+  color: #fff !important;
+  border: 0 !important;
+  border-bottom: 1px solid var(--kld-border-soft) !important;
+  font-weight: 500 !important;
+}
+
+/* Kafelek meczu */
+.bracket .match,
+.bracket .match-box,
+.bracket .matchBox,
+.bracket .game-box,
+.bracket .match-card,
+.tournament-bracket .match,
+.tournament-bracket .match-box,
+.tournament-tree .match,
+.tournament-tree .match-box,
+.knockout .match,
+.knockout .match-box,
+[class*="bracket"] [class*="match"] {
+  background: #f6f6f6 !important;
+  color: #111 !important;
+  border: 1px solid #cfcfcf !important;
+  border-radius: 12px !important;
+  box-shadow: var(--kld-shadow) !important;
+  overflow: hidden !important;
+}
+
+/* Wiersze zawodników w meczu */
+.bracket .match .player,
+.bracket .match .team,
+.bracket .match .name,
+.bracket .match-box .player,
+.bracket .match-box .team,
+.tournament-bracket .match .player,
+.tournament-tree .match .player,
+.knockout .match .player,
+[class*="bracket"] [class*="player"],
+[class*="bracket"] [class*="team"] {
+  color: #111 !important;
+  background: #f6f6f6 !important;
+}
+
+/* Separatory wewnątrz boxów */
+.bracket .match > * + *,
+.bracket .match-box > * + *,
+.tournament-bracket .match > * + *,
+.knockout .match > * + *,
+[class*="bracket"] [class*="match"] > * + * {
+  border-top: 1px solid #dadada !important;
+}
+
+/* Wyniki po prawej */
+.bracket .score,
+.bracket .score-box,
+.bracket .winner-score,
+.bracket .win-score,
+.tournament-bracket .score,
+.tournament-tree .score,
+.knockout .score,
+[class*="bracket"] [class*="score"] {
+  background: var(--kld-score-bg) !important;
+  color: var(--kld-score-text) !important;
+  font-weight: 700 !important;
+}
+
+/* Zwycięzcy w drabince */
+.bracket .winner,
+.bracket .winner .name,
+.bracket .win,
+.bracket .is-winner,
+.bracket .match-winner,
+.tournament-bracket .winner,
+.tournament-tree .winner,
+.knockout .winner,
+[class*="bracket"] .winner,
+[class*="bracket"] .win,
+[class*="bracket"] .is-winner,
+[class*="bracket"] .match-winner {
+  color: var(--kld-gold) !important;
+  font-weight: 700 !important;
+}
+
+.bracket .connector,
+.bracket .line,
+.tournament-bracket .connector,
+.tournament-tree .line,
+.knockout .connector,
+[class*="bracket"] [class*="connector"],
+[class*="bracket"] [class*="line"] {
+  border-color: #1f1f1f !important;
+}
+
+/* Nazwy pod boxami / podpisy ścieżki */
+.bracket .seed,
+.bracket .meta,
+.bracket .note,
+.tournament-bracket .seed,
+.tournament-tree .seed,
+.knockout .seed,
+[class*="bracket"] [class*="meta"],
+[class*="bracket"] [class*="note"] {
+  color: #6a717a !important;
+}
+
+/* ========================================
+   5. MODALE / INPUTY / DROBNE ELEMENTY
+   ======================================== */
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
+  background: #121316 !important;
+  color: #fff !important;
+  border: 1px solid #404040 !important;
+  border-radius: 6px !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #9fa6ae !important;
+}
+
+.modal,
+.modal-content,
+.dialog,
+.dialog-content,
+.popup,
+.dropdown-menu,
+.menu,
+.popover {
+  background: #141414 !important;
+  color: #fff !important;
+  border: 1px solid #2e2e2e !important;
+}
+
+footer,
+#footer,
+.footer {
+  background: transparent !important;
+  color: #9ba2aa !important;
+}
+
+/* ========================================
+   6. MOBILKA
+   ======================================== */
+@media (max-width: 900px) {
+  html, body {
+    font-size: 13px;
+  }
+
+  table th,
+  table td,
+  .table th,
+  .table td {
+    padding: 5px 6px !important;
+  }
+
+  .table-responsive,
+  .table-wrapper,
+  .table-scroll,
+  .bracket-scroll,
+  .bracket-wrapper {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+}
