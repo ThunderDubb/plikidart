@@ -1,0 +1,27 @@
+﻿/* D. Third place: optional badge for when n01 includes a SEMANTIC rank
+   class or data-rank attribute. CSS cannot derive rank from plain text '3'
+   in the last column. Therefore these selectors never use nth-child(3).
+   Example desired caption: MARKER · 1. RUNDA */
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody
+tr:is(.rank3, .rank-3, .rank_3, .place3, .place-3, .place_3, .position-3, .third-place, .group-third, [data-rank='3'], [data-place='3'], [data-position='3']) > td:nth-child(2)::after,
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody
+tr:has(> td:last-child:is(.rank3, .rank-3, .place3, .place-3, [data-rank='3'], [data-place='3'], [data-position='3'])) > td:nth-child(2)::after,
+:is(table:not(:has(.t_item_container)), .table:not(:has(.t_item_container))) tbody
+td:nth-child(2):is(.rank3, .rank-3, .place3, .place-3, [data-rank='3'], [data-place='3'])::after {
+    content: "MARKER w fazie pucharowej";
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 7px;
+    padding: 3px 5px;
+    border-radius: 3px;
+    /* border: 1px solid #f16a74; */
+    background-color: #9a2635;
+    color: #fff8f8 !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .08), 0 0 0 1px rgba(99, 15, 25, .18);
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 9px;
+    /* letter-spacing: .04em; */
+    line-height: 1.25;
+    /* white-space: nowrap; */
+}
